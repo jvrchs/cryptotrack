@@ -1,9 +1,8 @@
 import { TextField } from "@material-ui/core";
 import React from "react";
-import { useState } from "react";
-import { withStyles, makeStyles } from "@material-ui/styles";
+import { withStyles } from "@material-ui/styles";
 
-const CssTextField = withStyles({
+const StyledTextField = withStyles({
   root: {
     "& .MuiInputLabel-outlined": {
       color: "white",
@@ -31,15 +30,13 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-const SearchBar = () => {
-  const [searchInput, setSearchInput] = useState("");
-
+const SearchBar = ({ setSearchInput }) => {
   const handleSubmit = () => {};
 
   return (
     <form noValidate autoComplete="off" onSubmit={handleSubmit}>
-      <CssTextField
-        label="Search"
+      <StyledTextField
+        label="Search a currency"
         variant="outlined"
         color="secondary"
         className="searchBar-input"
