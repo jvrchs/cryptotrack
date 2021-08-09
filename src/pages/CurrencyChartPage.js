@@ -1,17 +1,27 @@
-import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
+//React Router
 import { useParams } from "react-router";
-import CurrencyChart from "../components/CurrencyChart";
-import convertTimestamp from "../utils/timestampConverter";
+//Axios
+import axios from "axios";
+//Spinner
 import { PuffLoader } from "react-spinners";
+//Material UI
+import { Grid } from "@material-ui/core";
+//Components
+import CurrencyInfo from "../components/CurrencyInfo";
+import CurrencyChart from "../components/CurrencyChart";
+//Utils
+import convertTimestamp from "../utils/timestampConverter";
 
-const CurrencyChartPage = ({ cryptoData }) => {
+const CurrencyChartPage = ({ cryptoData, history }) => {
   const { currencyId } = useParams();
-
-  const [currencyInfo] = cryptoData.filter(
+  console.log(cryptoData);
+  const [filteredCurrency] = cryptoData.filter(
     (crypto) => crypto.id === currencyId
   );
+
+  const [currencyData, setCurrencyData] = useState(filteredCurrency);
 
   const [loading, setLoading] = useState(true);
 
@@ -65,13 +75,28 @@ const CurrencyChartPage = ({ cryptoData }) => {
   return (
     <div>
       {loading ? (
-        <PuffLoader loading={loading} color={"rgb(212, 0, 231)"} />
+        <Grid
+          container
+          justifyContent="center"
+          alignContent="center"
+          style={{ marginTop: "10vh" }}
+        >
+          <br />
+          <PuffLoader loading={loading} color={"rgb(212, 0, 231)"} />
+        </Grid>
       ) : (
-        <CurrencyChart
-          dateLabels={dateLabels}
-          prices={prices}
-          currencyInfo={currencyInfo}
-        />
+        <Grid container direction="column">
+          <Grid item>
+            <CurrencyInfo currencyData={currencyData} history={history} />
+          </Grid>
+          <Grid item style={{ margin: "10px 0" }}>
+            <CurrencyChart
+              dateLabels={dateLabels}
+              prices={prices}
+              currencyData={currencyData}
+            />
+          </Grid>
+        </Grid>
       )}
     </div>
   );

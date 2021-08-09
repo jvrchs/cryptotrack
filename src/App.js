@@ -1,18 +1,23 @@
 import React from "react";
 import { useState, useEffect } from "react";
 //React-router-dom
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 //Pages
 import Home from "./pages/Home";
 import CurrencyChartPage from "./pages/CurrencyChartPage";
 //Layout
 import Header from "./layout/Header";
 import Main from "./layout/Main";
-
 //Axios
 import axios from "axios";
+//Spinner
+import { PuffLoader } from "react-spinners";
+//Material UI
+import { Grid } from "@material-ui/core";
 
-function App() {
+const App = () => {
+  const history = useHistory();
+
   const [cryptoData, setCryptoData] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -43,17 +48,29 @@ function App() {
     <div className="App">
       <Header />
       <Main>
-        <Switch>
-          <Route exact path="/">
-            <Home loading={loading} cryptoData={cryptoData} />
-          </Route>
-          <Route exact path="/:currencyId">
-            <CurrencyChartPage cryptoData={cryptoData} />
-          </Route>
-        </Switch>
+        {loading ? (
+          <Grid
+            container
+            justifyContent="center"
+            alignContent="center"
+            style={{ marginTop: "10vh" }}
+          >
+            <br />
+            <PuffLoader loading={loading} color={"rgb(212, 0, 231)"} />
+          </Grid>
+        ) : (
+          <Switch>
+            <Route exact path="/">
+              <Home cryptoData={cryptoData} />
+            </Route>
+            <Route exact path="/:currencyId">
+              <CurrencyChartPage cryptoData={cryptoData} history={history} />
+            </Route>
+          </Switch>
+        )}
       </Main>
     </div>
   );
-}
+};
 
 export default App;

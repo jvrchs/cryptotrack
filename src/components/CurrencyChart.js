@@ -1,14 +1,15 @@
 import React from "react";
+//Material UI
+import { Container } from "@material-ui/core";
+//Chart JS
 import { Line } from "react-chartjs-2";
-import convertTimestamp from "../utils/timestampConverter";
 
-const CurrencyChart = ({ dateLabels, prices, currencyInfo }) => {
-  console.log(currencyInfo);
+const CurrencyChart = ({ dateLabels, prices, currencyData }) => {
   const data = {
     labels: dateLabels,
     datasets: [
       {
-        label: `${currencyInfo.name} price`,
+        label: `${currencyData.name} price`,
         data: prices,
         fill: false,
         backgroundColor: "white",
@@ -28,8 +29,18 @@ const CurrencyChart = ({ dateLabels, prices, currencyInfo }) => {
         },
       ],
     },
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
   };
-  return <Line data={data} options={options} />;
+
+  return (
+    <Container maxWidth="md">
+      <Line data={data} options={options} />
+    </Container>
+  );
 };
 
 export default CurrencyChart;

@@ -1,5 +1,6 @@
-import { TextField } from "@material-ui/core";
 import React from "react";
+//Material UI
+import { TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 
 const StyledTextField = withStyles({
